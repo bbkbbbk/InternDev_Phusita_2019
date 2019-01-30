@@ -19,7 +19,7 @@ pip bs4
 
 <p align="center">
   <img width="570" alt="screen shot 2562-01-30 at 22 58 02" src="https://user-images.githubusercontent.com/47117776/51996090-ad4b9300-24e6-11e9-8246-e4a5a5a8b7cc.png">
-<p align="center">อย่างแรกเลยก็คือ cd ไปยัง directory ที่เราเก็บไฟล์ mainGame.py เอาไว้.</p>
+<p align="center">อย่างแรกเลยก็คือ cd ไปยัง directory ที่เราเก็บไฟล์ mainGame.py เอาไว้ แล้วใช้คำสั่ง python3 ตามด้วยชื่อไฟล์เพื่อเรียกไฟล์ขึ้นมา</p>
 
 <p align="center">
   <img width="569" alt="screen shot 2562-01-30 at 22 58 17" src="https://user-images.githubusercontent.com/47117776/51996093-ae7cc000-24e6-11e9-8b8d-b993e23e8f4e.png">
