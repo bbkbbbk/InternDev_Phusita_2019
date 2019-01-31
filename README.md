@@ -5,5 +5,5 @@ The Internship Developer 2019
 * Tel: 087-333-6078
 
 ## Project
-* [Idenify (face detection and recognition program)](https://github.com/bbkbbbk/Identify)
+* [Idenify (Face Detection and Recognition Program)](https://github.com/bbkbbbk/Identify)
 * [JustWhen (IOS Application)](https://github.com/bbkbbbk/JustWhen)
