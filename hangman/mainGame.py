@@ -1,78 +1,100 @@
-from NowShowingMovies import movies
-from TopHitsOnSpotify import words as songs
 import random
+from TopHitsOnSpotify import words as songs
+from NowShowingMovies import movies
+
+
+class createWord:
+    def __init__(self, words, played_words):
+        n = random.randint(0, len(words) - 1)
+        while (words[n] in played_words):
+            n = random.randint(0, len(words) - 1)
+        self.word = words[n]['name']
+        self.hint = words[n]['hint']
+        played_words.append(words[n]['name'])
+        self.score = 0
+        self.guess = 0
+
+
+    def getHint(self):
+        return self.hint
+
+    def getWord(self):
+        playword = self.word
+        if '(' in playword:
+            end = playword.find('(')
+            playword = playword[:end - 1]
+        return playword.lower()
+
+    def getShowWord(self, correct_ch):
+        self.showWord = self.word.lower()
+        for ch in self.showWord:
+            if ch not in correct_ch and ch.isalpha():
+                self.showWord = self.showWord.replace(ch, '_', 1)
+            if ch == '(':
+                break
+        return self.showWord.lower()
+
+    def getScore(self):
+        self.score = (1 / showWord.count('_')) * 100
+        return self.score
+
+    def getGuess(self):
+        self.guess = showWord.count(('_'))
+        return self.guess
 
 
 categories = ['Now Showing Movies', 'Top hits on Spotify']
 option = {'1':movies, '2':songs}
-played_word = []
 total_score = 0
+played_words = []
+win = False
 quit = False
+hasWrong = False
 
-def createShowWord(word):
-    for ch in word:
-        if ch not in correct_ch and ch.isalpha():
-            word = word.replace(ch, '_', 1)
-        if ch == '(':
-            break
-    return word
+while not quit:
+    correct_ch = []
+    wrong_ch = []
+    win = False
+    hasWrong = False
 
-while(not quit):
     print('Select Category:')
     for item in range(len(categories)):
         print(str(item + 1) + '. ' + categories[item])
 
     user_input = input('Enter: ')
-    while(user_input not in option):
+    while (user_input not in option):
         print('Invalid Input try again')
         user_input = input('Enter: ')
-    words = option[user_input]
 
-    n = random.randint(0, len(words) - 1)
-    while(words[n] in played_word):
-        n = random.randint(0, len(words) - 1)
-
-    result = words[n]['name'].lower()
-    hint = words[n]['hint']
-    played_word.append(words[n]['name'])
-    if '(' in result:
-        end = result.find('(')
-        result = result[:end-1]
+    result = createWord(option[user_input], played_words)#actual word
+    word = result.getWord()
+    hint = result.getHint()
+    showWord = result.getShowWord(correct_ch) #word that shown in underscore
+    score = result.getScore()
+    guess = result.getGuess()
 
     print('Hint: ', end='')
-    if user_input == '2':
-        if type(hint) == list:
-            for elem in hint:
-                print(elem, end='  ')
-            print()
-        else:
-            print(hint)
+    if type(hint) == list:
+        for elem in hint:
+            print(elem, end='  ')
+        print()
     else:
         print(hint)
 
-    wrong_ch = []
-    correct_ch = []
-    hasWrong = False
-    win = False
-
-    word = createShowWord(words[n]['name'].lower())
-    score = (1 / word.count('_')) * 100
-    guess = word.count(('_'))
-
     while (not win and guess > 0):
         if not hasWrong:
-            print(word, 'score:', int(total_score), 'remaining wrong guess:', guess)
+            print(showWord, 'score:', int(total_score), 'Remaining wrong guess:', guess)
         else:
-            print(word, 'score:', int(total_score), 'remaining wrong guess:', guess, 'wrong guessed: ', end='')
+            print(showWord, 'score:', int(total_score), 'Remaining wrong guess:', guess, 'Wrong guessed: ', end='')
             for ch in wrong_ch:
                 print(ch, end=' ')
             print()
         print('======================================================================')
 
         user_ans = input('Guess: ').lower()
-        if user_ans == result:
+        if user_ans == word:
             win = True
-            total_score += 100
+            total_score += 200 - (len(wrong_ch) * 5)
             break
 
         if user_ans.isalpha() is not True:
@@ -83,26 +105,25 @@ while(not quit):
             print('Wrong, you has guessed that letter already')
             guess -= 1
             total_score -= 5
-        elif user_ans in result and user_input not in correct_ch:
+        elif user_ans in word and user_input not in correct_ch:
             correct_ch.append(user_ans)
-            total_score += score*(result.count(user_ans))
-            word = createShowWord(words[n]['name'].lower())
+            total_score += score * (word.count(user_ans))
+            showWord = result.getShowWord(correct_ch)
         else:
             wrong_ch.append(user_ans)
             hasWrong = True
             guess -= 1
             total_score -= 5
 
-        if '_' not in word:
+        if '_' not in showWord:
             win = True
-
 
     print('\n======================================================================')
     if win:
-        print('You Win!', 'The word is:', words[n]['name'])
+        print('You Win!', 'The word is:', result.word)
         print('Your score:', int(total_score))
     else:
-        print('You Lose, the word is:', words[n]['name'])
+        print('You Lose, the word is:', result.word)
         print('Your score:', int(total_score))
     print('======================================================================\n')
 
@@ -111,6 +132,4 @@ while(not quit):
         quit = True
 
 print('Quit...')
-
-
 
