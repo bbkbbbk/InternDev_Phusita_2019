@@ -59,17 +59,17 @@ while not quit:
     while (user_input not in option):
         print('Invalid Input try again')
         user_input = input('Enter: ')
-
+        
+    correct_ch = []
+    wrong_ch = []
+    win = False
+    hasWrong = False
     result = createWord(option[user_input], played_words)#actual word
     word = result.getWord()
     hint = result.getHint()
     showWord = result.getShowWord(correct_ch) #word that shown in underscore
     score = result.getScore()
     guess = result.getGuess()
-    correct_ch = []
-    wrong_ch = []
-    win = False
-    hasWrong = False
 
     print('Hint: ', end='')
     if type(hint) == list:
