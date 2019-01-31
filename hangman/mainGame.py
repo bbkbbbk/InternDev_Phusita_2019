@@ -14,7 +14,6 @@ class createWord:
         self.score = 0
         self.guess = 0
 
-
     def getHint(self):
         return self.hint
 
@@ -52,11 +51,6 @@ quit = False
 hasWrong = False
 
 while not quit:
-    correct_ch = []
-    wrong_ch = []
-    win = False
-    hasWrong = False
-
     print('Select Category:')
     for item in range(len(categories)):
         print(str(item + 1) + '. ' + categories[item])
@@ -72,6 +66,10 @@ while not quit:
     showWord = result.getShowWord(correct_ch) #word that shown in underscore
     score = result.getScore()
     guess = result.getGuess()
+    correct_ch = []
+    wrong_ch = []
+    win = False
+    hasWrong = False
 
     print('Hint: ', end='')
     if type(hint) == list:
@@ -90,13 +88,11 @@ while not quit:
                 print(ch, end=' ')
             print()
         print('======================================================================')
-
         user_ans = input('Guess: ').lower()
         if user_ans == word:
             win = True
             total_score += 200 - (len(wrong_ch) * 5)
             break
-
         if user_ans.isalpha() is not True:
             print('Wrong, you only need to guess letter')
             guess -= 1
@@ -132,4 +128,3 @@ while not quit:
         quit = True
 
 print('Quit...')
-
